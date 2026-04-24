@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JONI_MUXA</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+/* Background katta yozuv */
+body::before {
+    content: "JONI_MUXA";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100px;
+    color: rgba(255,255,255,0.05);
+    z-index: 0;
+    white-space: nowrap;
+}
+
+/* Asosiy kontent */
+.container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Upload qismi */
+.upload {
+    text-align: center;
+    margin: 30px 0;
+}
+
+input[type="file"] {
+    padding: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background: orange;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: darkorange;
+}
+
+/* Portfolio grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.card {
+    background: #222;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.card img, .card video {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>JONI_MUXA PORTFOLIO</header>
+
+<div class="upload">
+    <input type="file" id="fileInput" multiple>
+    <br><br>
+    <button onclick="uploadFiles()">Fayl joylash</button>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+</div>
+
+<script>
+function uploadFiles() {
+    const input = document.getElementById('fileInput');
+    const gallery = document.getElementById('gallery');
+
+    for (let file of input.files) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const div = document.createElement('div');
+            div.className = "card";
+
+            if (file.type.startsWith("image")) {
+                div.innerHTML = `<img src="${e.target.result}">`;
+            } else if (file.type.startsWith("video")) {
+                div.innerHTML = `<video controls src="${e.target.result}"></video>`;
+            } else {
+                div.innerHTML = `<p>${file.name}</p>`;
+            }
+
+            gallery.appendChild(div);
+        }
+
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
+</body>
+</html>
